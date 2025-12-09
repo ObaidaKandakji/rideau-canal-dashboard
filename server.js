@@ -31,7 +31,7 @@ const container = database.container(process.env.COSMOS_CONTAINER);
  */
 app.get('/api/latest', async (req, res) => {
     try {
-        const locations = ["Dow's Lake", "Fifth Avenue", "NAC"];
+        const locations = ["DowsLake", "FifthAvenue", "NAC"];
         const results = [];
 
         for (const location of locations) {
@@ -48,9 +48,9 @@ app.get('/api/latest', async (req, res) => {
                 .fetchAll();
 
             if (resources.length > 0) {
-                // Sort by windowEndTime descending and get the first one
+                // Sort by windowEnd descending and get the first one
                 resources.sort((a, b) =>
-                    new Date(b.windowEndTime) - new Date(a.windowEndTime)
+                    new Date(b.windowEnd) - new Date(a.windowEnd)
                 );
                 results.push(resources[0]);
             }
@@ -90,9 +90,9 @@ app.get('/api/history/:location', async (req, res) => {
             .query(querySpec)
             .fetchAll();
 
-        // Sort by windowEndTime descending and limit
+        // Sort by windowEnd descending and limit
         resources.sort((a, b) =>
-            new Date(b.windowEndTime) - new Date(a.windowEndTime)
+            new Date(b.windowEnd) - new Date(a.windowEnd)
         );
 
         const limitedResults = resources.slice(0, limit);
@@ -117,13 +117,13 @@ app.get('/api/history/:location', async (req, res) => {
  */
 app.get('/api/status', async (req, res) => {
     try {
-        const locations = ["Dow's Lake", "Fifth Avenue", "NAC"];
+        const locations = ["DowsLake", "FifthAvenue", "NAC"];
         const statuses = [];
 
         for (const location of locations) {
             // Simple query without subquery
             const querySpec = {
-                query: "SELECT c.location, c.safetyStatus, c.windowEndTime FROM c WHERE c.location = @location",
+                query: "SELECT c.location, c.safetyStatus, c.windowEnd FROM c WHERE c.location = @location",
                 parameters: [
                     { name: "@location", value: location }
                 ]
@@ -134,9 +134,9 @@ app.get('/api/status', async (req, res) => {
                 .fetchAll();
 
             if (resources.length > 0) {
-                // Sort by windowEndTime descending and get the latest
+                // Sort by windowEnd descending and get the latest
                 resources.sort((a, b) =>
-                    new Date(b.windowEndTime) - new Date(a.windowEndTime)
+                    new Date(b.windowEnd) - new Date(a.windowEnd)
                 );
                 statuses.push(resources[0]);
             }
@@ -174,9 +174,9 @@ app.get('/api/all', async (req, res) => {
             .query(querySpec)
             .fetchAll();
 
-        // Sort by windowEndTime descending
+        // Sort by windowEnd descending
         resources.sort((a, b) =>
-            new Date(b.windowEndTime) - new Date(a.windowEndTime)
+            new Date(b.windowEnd) - new Date(a.windowEnd)
         );
 
         res.json({
