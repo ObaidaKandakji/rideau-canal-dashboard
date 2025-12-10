@@ -239,9 +239,9 @@ Simple health check for the web app and config.
 - Click **Create** → **Web App**  
 - Fill in the **Basics**:
   - Resource Group: `CST8916Final`
-  - Name: `CST8916Final` (or any unique app name)
+  - Name: `CST8916Final` 
   - Publish: `Code`
-  - Runtime stack: `Node 18 LTS` (or Node 20/24 LTS if available)
+  - Runtime stack: `Node 24 LTS` 
   - Region: `Canada Central`
   - Pricing plan: `Free (F1)`  
   - Zone redundancy: `Disabled`
@@ -253,7 +253,7 @@ Simple health check for the web app and config.
 - Source: `GitHub`  
 - Sign in with your GitHub account  
 - Organization: `<your GitHub username>`  
-- Repository: `rideau-canal-dashboard` (or your actual repo name)  
+- Repository: `rideau-canal-dashboard`  (or any available name) 
 - Branch: `main`  
 - Click **Save** (or **Finish**) to enable continuous deployment
 
@@ -316,7 +316,7 @@ to make sure the app and Cosmos DB config are correct
   - **Unsafe** if any location is Unsafe.
   - **Caution** otherwise.
 
----
+
 
 ## Troubleshooting
 
