@@ -64,13 +64,36 @@ function updateLocationCards(locations) {
     locations.forEach(location => {
         const locationKey = getLocationKey(location.location);
 
-        // Update metrics
+        // Main averages
         document.getElementById(`ice-${locationKey}`).textContent =
             location.avgIceThickness.toFixed(1);
         document.getElementById(`temp-${locationKey}`).textContent =
             location.avgSurfaceTemperature.toFixed(1);
         document.getElementById(`snow-${locationKey}`).textContent =
             location.maxSnowAccumulation.toFixed(1);
+
+        // New: ranges
+        const iceRangeEl = document.getElementById(`ice-range-${locationKey}`);
+        if (iceRangeEl) {
+            iceRangeEl.textContent = `${location.minIceThickness.toFixed(1)} – ${location.maxIceThickness.toFixed(1)}`;
+        }
+
+        const tempRangeEl = document.getElementById(`temp-range-${locationKey}`);
+        if (tempRangeEl) {
+            tempRangeEl.textContent = `${location.minSurfaceTemperature.toFixed(1)} – ${location.maxSurfaceTemperature.toFixed(1)}`;
+        }
+
+        // New: external temperature (average)
+        const extEl = document.getElementById(`ext-${locationKey}`);
+        if (extEl) {
+            extEl.textContent = location.avgExternalTemperature.toFixed(1);
+        }
+
+        // New: reading count
+        const readingsEl = document.getElementById(`readings-${locationKey}`);
+        if (readingsEl) {
+            readingsEl.textContent = location.readingCount;
+        }
 
         // Update safety status
         const statusBadge = document.getElementById(`status-${locationKey}`);
@@ -145,7 +168,7 @@ async function updateCharts() {
 
         // Get time labels from first location's data
         const labels = historicalData[0].data.map(d =>
-            new Date(d.windowEndTime).toLocaleTimeString('en-CA', {
+            new Date(d.windowEnd).toLocaleTimeString('en-CA', {
                 hour: '2-digit',
                 minute: '2-digit'
             })
